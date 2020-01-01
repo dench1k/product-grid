@@ -1,0 +1,3 @@
+# Gulp static
+
+Images directory

@@ -1,0 +1,3 @@
+# Gulp static
+
+JS directory

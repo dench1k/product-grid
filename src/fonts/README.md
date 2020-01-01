@@ -1,0 +1,3 @@
+# Gulp static
+
+Fonts directory
