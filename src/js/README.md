@@ -1,3 +1,0 @@
-# Gulp static
-
-JS directory
