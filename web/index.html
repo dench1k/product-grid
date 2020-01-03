@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="no-js" lang="">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,82 +10,83 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <!-- bulma css stuff -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css"
-          integrity="sha256-dMQYvN6BU9M4mHK94P22cZ4dPGTSGOVP41yVXvXatws=" crossorigin="anonymous"/>
+        integrity="sha256-dMQYvN6BU9M4mHK94P22cZ4dPGTSGOVP41yVXvXatws=" crossorigin="anonymous" />
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <title>Products Page via jQuery</title>
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <title>Products Page</title>
 </head>
+
 <body>
-<!-- app START -->
-<div class="app">
-    <!-- hero START -->
-    <section class="hero is-info is-medium is-bold">
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <h1 class="title">
-                    Products Page via jQuery
-                </h1>
-                <h2 class="subtitle">
-                    Some small training template for our things and that kind of stuff
-                </h2>
+    <!-- app START -->
+    <div class="app">
+        <!-- hero START -->
+        <section class="hero is-info is-medium is-bold">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <h1 class="title">
+                        Products Page
+                    </h1>
+                    <h2 class="subtitle">
+                        Some small training template for our things and that kind of stuff
+                    </h2>
+                </div>
             </div>
-        </div>
-    </section>
-    <!-- /hero END -->
-    <section class="container">
-        <div class="columns features">
-            <!-- sidebar START -->
-            <div class="column is-2">
-                <div class="sidebar">
-                    <h2 class="title is-4">Price</h2>
-                    <p>Filter products by price</p>
-                    <div class="filters box">
-                        <div class="select">
-                            <select class="filters__select js-filters__select">
-                                <option value="NONE">None</option>
-                                <option value="ASC">Price ASC</option>
-                                <option value="DESC">Price DESC</option>
-                            </select>
+        </section>
+        <!-- /hero END -->
+        <section class="container">
+            <div class="columns features">
+                <!-- sidebar START -->
+                <div class="column is-2">
+                    <div class="sidebar">
+                        <h2 class="title is-4">Price</h2>
+                        <p>Filter products by price</p>
+                        <div class="filters box">
+                            <div class="select">
+                                <select class="filters__select js-filters__select">
+                                    <option value="NONE">None</option>
+                                    <option value="ASC">Price ASC</option>
+                                    <option value="DESC">Price DESC</option>
+                                </select>
+                            </div>
+                        </div>
+                        <h2 class="title is-4">Filters</h2>
+                        <p>Filter products by color</p>
+                        <div class="filters box">
+                            <ul class="filters__colors js-filters__colors"></ul>
                         </div>
                     </div>
-                    <h2 class="title is-4">Filters</h2>
-                    <p>Filter products by color</p>
-                    <div class="filters box">
-                        <ul class="filters__colors js-filters__colors"></ul>
+                </div>
+                <!-- /sidebar End -->
+                <!-- products START -->
+                <div class="column">
+                    <h2 class="title is-4">Products</h2>
+                    <div class="products js-products columns"></div>
+                </div>
+                <!-- /products END -->
+            </div>
+        </section>
+        <!-- footer START -->
+        <footer class="footer">
+            <div class="container">
+                <div class="content has-text-centered">
+                    <p>
+                        <i class="fa fa-code"></i> with <i class="fa fa-heart"></i> by
+                    </p>
+                    <div class="control level-item">
+                        <div class="tags has-addons">
+                            <span class="tag is-info">Den Moskvitin</span>
+                            <span class="tag is-warning">Alex Zarechnev</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- /sidebar End -->
-            <!-- products START -->
-            <div class="column">
-                <h2 class="title is-4">Products</h2>
-                <div class="products js-products columns"></div>
-            </div>
-            <!-- /products END -->
-        </div>
-    </section>
-    <!-- footer START -->
-    <footer class="footer">
-        <div class="container">
-            <div class="content has-text-centered">
-                <p>
-                    <i class="fa fa-code"></i> with <i class="fa fa-heart"></i> by
-                </p>
-                <div class="control level-item">
-                    <div class="tags has-addons">
-                        <span class="tag is-info">Den Moskvitin</span>
-                        <span class="tag is-warning">Alex Zarechnev</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- /footer START -->
-</div>
-<!-- /app END -->
+        </footer>
+        <!-- /footer START -->
+    </div>
+    <!-- /app END -->
 
-<!-- handlebars templates START -->
-<script id="product-template" type="text/x-handlebars-template">
+    <!-- handlebars templates START -->
+    <script id="product-template" type="text/x-handlebars-template">
     {{#each products}}
     <div class="product card is-shady">
         <div class="product-image">
@@ -112,7 +114,7 @@
     </div>
     {{/each}}
 </script>
-<script id="colors-template" type="text/x-handlebars-template">
+    <script id="colors-template" type="text/x-handlebars-template">
     {{#each colors}}
     <li>
         <div>
@@ -122,36 +124,38 @@
     </li>
     {{/each}}
 </script>
-<!-- /handlebars templates END -->
+    <!-- /handlebars templates END -->
 
-<ol>
-    <li>
-        Подключить фреймверк по типу Bootstrap, Foundation, etc и создать 2 колонки (sidebar + content)
-        <br>
-        В сайдбаре будут фильтры:
-        <br>
-        - чекбоксы для всех возможных цветов продуктов
-        <br>
-        - селект с ценой (Price ASC, Price DESC)
-        <br>
-        В контенте будут карточки товаров - картинка товара, название, цвет и цена
-    </li>
-    <li>
-        Шлем AJAX на http://localhost:3000/products и забираем все продукты
-        <br>
-        Дальше рендерим их в контенте, а так же строим фильтры по цветам в сайдбере
-    </li>
-    <li>
-        По клику на чекбокс с определенным цветом показываем только продукты этого цвета
-    </li>
-    <li>По выбору селекта с ценой сортируем продукты по возрастанию или убыванию цены, при чем фильтры с цветом должны
-        сохраняться
-    </li>
-</ol>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    <ol>
+        <li>
+            Подключить фреймверк по типу Bootstrap, Foundation, etc и создать 2 колонки (sidebar + content)
+            <br>
+            В сайдбаре будут фильтры:
+            <br>
+            - чекбоксы для всех возможных цветов продуктов
+            <br>
+            - селект с ценой (Price ASC, Price DESC)
+            <br>
+            В контенте будут карточки товаров - картинка товара, название, цвет и цена
+        </li>
+        <li>
+            Шлем AJAX на http://localhost:3000/products и забираем все продукты
+            <br>
+            Дальше рендерим их в контенте, а так же строим фильтры по цветам в сайдбере
+        </li>
+        <li>
+            По клику на чекбокс с определенным цветом показываем только продукты этого цвета
+        </li>
+        <li>По выбору селекта с ценой сортируем продукты по возрастанию или убыванию цены, при чем фильтры с цветом
+            должны
+            сохраняться
+        </li>
+    </ol>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"
         integrity="sha256-qlku5J3WO/ehJpgXYoJWC2px3+bZquKChi4oIWrAKoI=" crossorigin="anonymous"></script>
-<script src="js/app.js"></script>
+    <script src="js/app.js"></script>
 </body>
+
 </html>
