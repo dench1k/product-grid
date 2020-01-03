@@ -186,11 +186,12 @@ productGridModule.init();
 */
 
 const API_URL = "http://localhost:3000/products/";
-
+let APIData = null;
 function getAPIData(url) {
   fetch(url)
     .then(response => response.json())
     .then(result => console.log(result))
     .catch(error => console.log(error));
 }
-getAPIData(API_URL);
+
+console.log(APIData);
