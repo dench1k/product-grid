@@ -1,4 +1,5 @@
 "use strict";
+/*
 const productGridModule = (function($) {
   //data
   const productsUrl = "http://localhost:3000/products/";
@@ -65,10 +66,9 @@ const productGridModule = (function($) {
   function getMatchedByColor(colorsArr) {
     let matchedArr = [];
     // if we have selected data by price use it instead of given productsData
-    let data = /*filteredByPriceData ||*/ productsData;
+    let data = productsData;
     // show all products when filters are unchecked
     if (colorsArr.length === 0) {
-      console.log("kek");
       renderProducts(data);
       return;
     }
@@ -112,9 +112,7 @@ const productGridModule = (function($) {
       .find("option[value]:selected")
       .val();
 
-    filteredByPriceData = Array.from(
-      Object.create(/*filteredByColorData ||*/ productsData)
-    );
+    filteredByPriceData = Array.from(Object.create(productsData));
 
     switch (filterSelectedOptionVal) {
       case NONE:
@@ -132,7 +130,7 @@ const productGridModule = (function($) {
     }
 
     function filterNONE() {
-      filteredByPriceData = /*filteredByColorData ||*/ productsData;
+      filteredByPriceData = productsData;
       console.log(filteredByPriceData);
       renderProducts(filteredByPriceData);
     }
@@ -141,7 +139,6 @@ const productGridModule = (function($) {
       data.sort(function(a, b) {
         return a.price - b.price;
       });
-      console.log(data);
       renderProducts(data);
     }
 
@@ -149,7 +146,6 @@ const productGridModule = (function($) {
       data.sort(function(a, b) {
         return b.price - a.price;
       });
-      console.log(data);
       renderProducts(data);
     }
   }
@@ -187,3 +183,14 @@ productGridModule.init();
 
 // filter ->> render
 // render(filter)
+*/
+
+const API_URL = "http://localhost:3000/products/";
+
+function getAPIData(url) {
+  fetch(url)
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(error => console.log(error));
+}
+getAPIData(API_URL);
