@@ -65,72 +65,11 @@
 
 // productGrid.init();
 
-const productGridModule = (function ($) {
+const productGridModule = (function($) {
   //data
   const productsUrl = "http://localhost:3000/products/";
   let filterArr = [];
-  let productsData = [
-    {
-      id: 0,
-      name: "Small Fresh Fish",
-      color: "ivory",
-      price: "43.00",
-      description: "desc",
-      image: {
-        src: "http://lorempixel.com/640/480/fashion"
-      }
-    },
-    {
-      id: 1,
-      name: "Tasty Frozen Chair",
-      color: "grey",
-      price: "455.00",
-      description: "desc",
-      image: {
-        src: "http://lorempixel.com/640/480/fashion"
-      }
-    },
-    {
-      id: 2,
-      name: "Intelligent Rubber Pizza",
-      color: "silver",
-      price: "484.00",
-      description: "desc",
-      image: {
-        src: "http://lorempixel.com/640/480/fashion"
-      }
-    },
-    {
-      id: 3,
-      name: "Handmade Granite Salad",
-      color: "purple",
-      price: "886.00",
-      description: "desc",
-      image: {
-        src: "http://lorempixel.com/640/480/fashion"
-      }
-    },
-    {
-      id: 4,
-      name: "Handmade Steel Mouse",
-      color: "salmon",
-      price: "387.00",
-      description: "desc",
-      image: {
-        src: "http://lorempixel.com/640/480/fashion"
-      }
-    },
-    {
-      id: 5,
-      name: "Incredible Granite Bike",
-      color: "lime",
-      price: "948.00",
-      description: "desc",
-      image: {
-        src: "http://lorempixel.com/640/480/fashion"
-      }
-    }
-  ];
+  let productsData = [];
 
   //cache DOM
   const $products = $(".products");
@@ -161,10 +100,10 @@ const productGridModule = (function ($) {
     let colorsArrAll = [];
     let colorsArrUnique = [];
 
-    data.forEach(function (element) {
+    data.forEach(function(element) {
       colorsArrAll.push(element.color);
     });
-    colorsArrUnique = colorsArrAll.filter(function (val, idx, arr) {
+    colorsArrUnique = colorsArrAll.filter(function(val, idx, arr) {
       return arr.indexOf(val) === idx;
     });
 
@@ -181,21 +120,20 @@ const productGridModule = (function ($) {
 
     console.log(filterArr);
 
-
     return filterArr;
   }
-  console.log('data:' + productsData);
+  console.log("data:" + productsData);
   function getData(url) {
     fetch(url)
-      .then(function (resp) {
+      .then(function(resp) {
         return resp.json();
       })
-      .then(function (data) {
+      .then(function(data) {
         productsData = data;
         renderProducts();
         renderColors(getColors(data));
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
