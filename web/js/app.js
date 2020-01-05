@@ -184,15 +184,26 @@ productGridModule.init();
 // filter ->> render
 // render(filter)
 */
+const productGridModule = (() => {
+  //data
+  const API_URL = "http://localhost:3000/products/";
 
-const API_URL = "http://localhost:3000/products/";
-const API_DATA = url => {
-  fetch(url)
-    .then(response => response.json())
-    .then(result => {
-      console.log(result);
-    })
-    .catch(error => console.log(error));
-};
+  //cached DOM
 
-API_DATA(API_URL);
+  //functions
+  const API_DATA = async url => {
+    const response = await fetch(url);
+    const responseJSON = await response.json();
+    console.log(responseJSON);
+  };
+
+  const init = () => {
+    API_DATA(API_URL);
+  };
+  //events
+  return {
+    init
+  };
+})();
+
+productGridModule.init();
