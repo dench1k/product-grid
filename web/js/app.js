@@ -189,17 +189,29 @@ const productGridModule = (() => {
   const API_URL = "http://localhost:3000/products/";
 
   //cached DOM
+  const products = document.querySelectorAll(".js-products");
+  const productsTemplate = document.querySelectorAll("#product-template")
+    .innerHTML;
+  const colors = document.querySelectorAll(".js-filters__colors");
+  const colorsTemplate = document.querySelectorAll("#colors-template")
+    .innerHTML;
+  const priceSelect = document.querySelectorAll(".js-filters__select");
 
   //functions
   const API_DATA = async url => {
     const response = await fetch(url);
     const responseJSON = await response.json();
-    console.log(responseJSON);
+    return responseJSON;
+  };
+
+  const render = () => {
+    const template = Handlebars.compile(productsTemplate);
   };
 
   const init = () => {
     API_DATA(API_URL);
   };
+
   //events
   return {
     init
