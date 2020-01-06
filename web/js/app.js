@@ -10,7 +10,7 @@ const productGridModule = (function($) {
 
   //cache DOM
   const $products = $(".js-products");
-  const $productsTemplate = $("#product-template").html();
+  const $productsTemplate = $("#products-template").html();
   const $colors = $(".js-filters__colors");
   const $colorsTemplate = $("#colors-template").html();
   const $priceSelect = $(".js-filters__select");
@@ -189,20 +189,18 @@ const productGridModule = (() => {
   const API_URL = "http://localhost:3000/products/";
 
   //cached DOM
-  const products = document.querySelectorAll(".js-products");
-  const productsTemplate = document.querySelectorAll("#product-template")
+  const productsList = document.querySelector(".js-products");
+  const productsTemplate = document.querySelector("#products-template")
     .innerHTML;
-  const colors = document.querySelectorAll(".js-filters__colors");
-  const colorsTemplate = document.querySelectorAll("#colors-template")
-    .innerHTML;
-  const priceSelect = document.querySelectorAll(".js-filters__select");
+  const colors = document.querySelector(".js-filters__colors");
+  const colorsTemplate = document.querySelector("#colors-template").innerHTML;
+  const priceSelect = document.querySelector(".js-filters__select");
 
   //functions
   const API_DATA = async url => {
     const response = await fetch(url);
     const responseJSON = await response.json();
-    console.log(responseJSON);
-    render(responseJSON, productsTemplate, products);
+    render(responseJSON, productsTemplate, productsList);
     return responseJSON;
   };
 
@@ -214,11 +212,13 @@ const productGridModule = (() => {
   ) => {
     const template = Handlebars.compile(templateToRender);
     const data = {
-      dataToRender
+      products: dataToRender
     };
+
     const result = template(data);
     containerToAppend.innerHTML = "";
-    containerToAppend.appendChild(result);
+
+    containerToAppend.append(result);
   };
 
   const init = () => {
