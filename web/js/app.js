@@ -201,11 +201,24 @@ const productGridModule = (() => {
   const API_DATA = async url => {
     const response = await fetch(url);
     const responseJSON = await response.json();
+    console.log(responseJSON);
+    render(responseJSON, productsTemplate, products);
     return responseJSON;
   };
 
-  const render = () => {
-    const template = Handlebars.compile(productsTemplate);
+  const render = (
+    dataToRender,
+    templateToRender,
+    containerToAppend,
+    conditionals = false
+  ) => {
+    const template = Handlebars.compile(templateToRender);
+    const data = {
+      dataToRender
+    };
+    const result = template(data);
+    containerToAppend.innerHTML = "";
+    containerToAppend.appendChild(result);
   };
 
   const init = () => {
