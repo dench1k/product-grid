@@ -197,12 +197,24 @@ const productGridModule = (() => {
   const priceSelect = document.querySelector(".js-filters__select");
 
   // functions
+  /**
+   * Get data from API
+   * @param {string} url - An URL to get data
+   * @return {object} - JSON with data
+   */
   const API_DATA = async url => {
     const response = await fetch(url);
     const responseJSON = await response.json();
     return responseJSON;
   };
 
+  /**
+   * Render HTML with Handlebars
+   * @param {object} dataToRender - An object with data to render from
+   * @param {Element} templateToRender - A handlebars template from HTML
+   * @param {string} containerToAppend - A DOMElement to render into
+   * @param {function} [conditionals = false] - An optional functionality extension
+   */
   const render = (
     dataToRender,
     templateToRender,
@@ -217,6 +229,9 @@ const productGridModule = (() => {
     containerToAppend.innerHTML = result;
   };
 
+  /**
+   * Get data from API and render into the DOM on initialization
+   */
   const init = async () => {
     const productsData = await API_DATA(API_URL);
     render(productsData, productsTemplate, productsList);
