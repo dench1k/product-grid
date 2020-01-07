@@ -185,10 +185,10 @@ productGridModule.init();
 // render(filter)
 */
 const productGridModule = (() => {
-  //data
+  // data
   const API_URL = "http://localhost:3000/products/";
 
-  //cached DOM
+  // cached DOM
   const productsList = document.querySelector(".js-products");
   const productsTemplate = document.querySelector("#products-template")
     .innerHTML;
@@ -196,11 +196,10 @@ const productGridModule = (() => {
   const colorsTemplate = document.querySelector("#colors-template").innerHTML;
   const priceSelect = document.querySelector(".js-filters__select");
 
-  //functions
+  // functions
   const API_DATA = async url => {
     const response = await fetch(url);
     const responseJSON = await response.json();
-    render(responseJSON, productsTemplate, productsList);
     return responseJSON;
   };
 
@@ -214,18 +213,16 @@ const productGridModule = (() => {
     const data = {
       products: dataToRender
     };
-
     const result = template(data);
-    containerToAppend.innerHTML = "";
-
-    containerToAppend.append(result);
+    containerToAppend.innerHTML = result;
   };
 
-  const init = () => {
-    API_DATA(API_URL);
+  const init = async () => {
+    const productsData = await API_DATA(API_URL);
+    render(productsData, productsTemplate, productsList);
   };
 
-  //events
+  // events
   return {
     init
   };
