@@ -256,11 +256,6 @@ const productGridModule = (() => {
       return arr.indexOf(value) === index;
     });
   };
-  // colorsArrUnique = colorsArrAll.filter(function(val, idx, arr) {
-  //   return arr.indexOf(val) === idx;
-  // });
-
-  // return colorsArrUnique.sort();
 
   /**
    * Get data from API and render into the DOM on initialization
