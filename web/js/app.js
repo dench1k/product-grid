@@ -180,27 +180,8 @@ const productGridModule = (function($) {
 })(jQuery);
 
 productGridModule.init();
-
-// filter ->> render
-// render(filter)
 */
-const fake = [
-  {
-    id: 0,
-    name: "Rustic Plastic Hat",
-    color: "blue"
-  },
-  {
-    id: 1,
-    name: "Plastic",
-    color: "red"
-  },
-  {
-    id: 0,
-    name: "Hat",
-    color: "yellow"
-  }
-];
+
 const productGridModule = (() => {
   // data
   const API_URL = "http://localhost:3000/products/";
@@ -246,14 +227,26 @@ const productGridModule = (() => {
     containerToAppend.innerHTML = result;
   };
 
-  const getColorsArray = arr => {
+  /**
+   * Get specific value from given array items
+   * @param {array} arr - An array with data objects
+   * @param {string} value - A specific object value to get in the resulted array
+   * @return {array}
+   */
+  const getValueArray = (arr, value) => {
     return arr.map(item => {
-      return item.color;
+      return item[value];
     });
   };
+
+  /**
+   * Get unique values from given array
+   * @param {array} arr - An array with non-unique values in every data item
+   * @return {array}
+   */
   const getUniqueArray = arr => {
     return arr.filter((value, index, array) => {
-      return arr.indexOf(value) === index;
+      return array.indexOf(value) === index;
     });
   };
 
@@ -262,7 +255,7 @@ const productGridModule = (() => {
    */
   const init = async () => {
     const productsData = await API_DATA(API_URL);
-    const colorsArray = getColorsArray(productsData);
+    const colorsArray = getValueArray(productsData, "color");
     const colorsUniqueArray = getUniqueArray(colorsArray).sort();
 
     render(productsData, productsTemplate, productsContainer);
