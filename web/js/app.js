@@ -184,15 +184,32 @@ productGridModule.init();
 // filter ->> render
 // render(filter)
 */
+const fake = [
+  {
+    id: 0,
+    name: "Rustic Plastic Hat",
+    color: "blue"
+  },
+  {
+    id: 1,
+    name: "Plastic",
+    color: "red"
+  },
+  {
+    id: 0,
+    name: "Hat",
+    color: "yellow"
+  }
+];
 const productGridModule = (() => {
   // data
   const API_URL = "http://localhost:3000/products/";
 
   // cached DOM
-  const productsList = document.querySelector(".js-products");
+  const productsContainer = document.querySelector(".js-products");
   const productsTemplate = document.querySelector("#products-template")
     .innerHTML;
-  const colors = document.querySelector(".js-filters__colors");
+  const colorsContainer = document.querySelector(".js-filters__colors");
   const colorsTemplate = document.querySelector("#colors-template").innerHTML;
   const priceSelect = document.querySelector(".js-filters__select");
 
@@ -223,18 +240,28 @@ const productGridModule = (() => {
   ) => {
     const template = Handlebars.compile(templateToRender);
     const data = {
-      products: dataToRender
+      items: dataToRender
     };
     const result = template(data);
     containerToAppend.innerHTML = result;
   };
+
+  const getColorsArray = arr => {
+    return arr.map(item => {
+      return item.color;
+    });
+  };
+  const getUniqueArray = arr => {};
 
   /**
    * Get data from API and render into the DOM on initialization
    */
   const init = async () => {
     const productsData = await API_DATA(API_URL);
-    render(productsData, productsTemplate, productsList);
+    const colorsArray = getColorsArray(productsData);
+    console.log(colorsArray);
+    render(productsData, productsTemplate, productsContainer);
+    //render(colorsData, colorsTemplate, colorsContainer);
   };
 
   // events

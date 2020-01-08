@@ -87,7 +87,7 @@
 
     <!-- handlebars templates START -->
     <script id="products-template" type="text/x-handlebars-template">
-    {{#each products}}
+    {{#each items}}
     <div class="product card is-shady">
         <div class="product-image">
             <img src="{{image.src}}" alt="">
@@ -115,7 +115,7 @@
     {{/each}}
 </script>
     <script id="colors-template" type="text/x-handlebars-template">
-    {{#each colors}}
+    {{#each items}}
     <li>
         <div>
             <input id="{{this}}{{@index}}" type="checkbox" value="{{this}}"/>
