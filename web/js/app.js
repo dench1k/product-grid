@@ -251,7 +251,16 @@ const productGridModule = (() => {
       return item.color;
     });
   };
-  const getUniqueArray = arr => {};
+  const getUniqueArray = arr => {
+    return arr.filter((value, index, array) => {
+      return arr.indexOf(value) === index;
+    });
+  };
+  // colorsArrUnique = colorsArrAll.filter(function(val, idx, arr) {
+  //   return arr.indexOf(val) === idx;
+  // });
+
+  // return colorsArrUnique.sort();
 
   /**
    * Get data from API and render into the DOM on initialization
@@ -259,9 +268,10 @@ const productGridModule = (() => {
   const init = async () => {
     const productsData = await API_DATA(API_URL);
     const colorsArray = getColorsArray(productsData);
-    console.log(colorsArray);
+    const colorsUniqueArray = getUniqueArray(colorsArray).sort();
+
     render(productsData, productsTemplate, productsContainer);
-    //render(colorsData, colorsTemplate, colorsContainer);
+    render(colorsUniqueArray, colorsTemplate, colorsContainer);
   };
 
   // events
