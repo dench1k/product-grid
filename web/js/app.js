@@ -224,24 +224,25 @@ const productGridModule = (() => {
       items: dataToRender
     };
     const result = template(data);
+    containerToAppend.innerHTML = "";
     containerToAppend.innerHTML = result;
   };
 
   /**
-   * Get specific value from given array items
+   * Get particular value from property of given array items
    * @param {array} arr - An array with data objects
-   * @param {string} value - A specific object value to get in the resulted array
+   * @param {string} prop - A particular property value to get in the resulted array
    * @return {array}
    */
-  const getValueArray = (arr, value) => {
+  const getPropertyArray = (arr, prop) => {
     return arr.map(item => {
-      return item[value];
+      return item[prop];
     });
   };
 
   /**
    * Get unique values from given array
-   * @param {array} arr - An array with non-unique values in every data item
+   * @param {array} arr - An array with data objects
    * @return {array}
    */
   const getUniqueArray = arr => {
@@ -251,12 +252,30 @@ const productGridModule = (() => {
   };
 
   /**
-   * Get data from API and render into the DOM on initialization
+   * Get filtered values of particular property from given array by another searching array
+   * @param {arr} dataArr - An array with data objects
+   * @param {string} prop - A particular property value to get in the resulted array
+   * @param {array} valArr - An arrays of values to search from
+   * @return {array}
+   */
+  const getFilteredArray = (dataArr, prop, valArr) => {
+    return dataArr.filter(item => {
+      return valArr.includes(item[prop]);
+    });
+  };
+
+  /**
+   * Get data from API and render it into the DOM on initialization
    */
   const init = async () => {
     const productsData = await API_DATA(API_URL);
-    const colorsArray = getValueArray(productsData, "color");
+    const colorsArray = getPropertyArray(productsData, "color");
     const colorsUniqueArray = getUniqueArray(colorsArray).sort();
+    const productsFilteredArray = getFilteredArray(productsData, "color", [
+      "lime",
+      "pink"
+    ]);
+    console.log(productsFilteredArray);
 
     render(productsData, productsTemplate, productsContainer);
     render(colorsUniqueArray, colorsTemplate, colorsContainer);
