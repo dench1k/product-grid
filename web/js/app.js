@@ -278,6 +278,7 @@ const productGridModule = (() => {
       arr.splice(idx, 1);
     }
     console.log(arr);
+    return arr;
   };
 
   /**
@@ -291,17 +292,19 @@ const productGridModule = (() => {
     render(productsData, productsTemplate, productsContainer);
     render(colorsUniqueArray, colorsTemplate, colorsContainer);
 
-    // const productsByColorArray = getFilteredArray(
-    //   productsData,
-    //   "color",
-    //   selectedColorsArray
-    // );
-  };
+    // events
+    colorsContainer.addEventListener("change", () => {
+      makeArrayFromElements(selectedColorsArray);
+      const productsByColorArray = getFilteredArray(
+        productsData,
+        "color",
+        selectedColorsArray
+      );
+      console.log(productsByColorArray);
 
-  // events
-  colorsContainer.addEventListener("change", () =>
-    makeArrayFromElements(selectedColorsArray)
-  );
+      render(productsByColorArray, productsTemplate, productsContainer);
+    });
+  };
 
   return {
     init
