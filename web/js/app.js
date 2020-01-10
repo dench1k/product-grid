@@ -268,15 +268,16 @@ const productGridModule = (() => {
   /**
    * Make and change array from checked color inputs
    */
-  const makeArrayFromElements = () => {
-    let target = event.target;
+  const makeArrayFromElements = arr => {
+    const target = event.target;
 
     if (target.checked) {
-      selectedColorsArray.push(target.value);
+      arr.push(target.value);
     } else {
       const idx = selectedColorsArray.indexOf(target.value);
-      selectedColorsArray.splice(idx, 1);
+      arr.splice(idx, 1);
     }
+    console.log(arr);
   };
 
   /**
@@ -286,18 +287,21 @@ const productGridModule = (() => {
     const productsData = await API_DATA(API_URL);
     const colorsArray = getPropertyArray(productsData, "color");
     const colorsUniqueArray = getUniqueArray(colorsArray).sort();
+
+    render(productsData, productsTemplate, productsContainer);
+    render(colorsUniqueArray, colorsTemplate, colorsContainer);
+
     // const productsByColorArray = getFilteredArray(
     //   productsData,
     //   "color",
     //   selectedColorsArray
     // );
-
-    render(productsData, productsTemplate, productsContainer);
-    render(colorsUniqueArray, colorsTemplate, colorsContainer);
   };
 
   // events
-  colorsContainer.addEventListener("change", makeArrayFromElements);
+  colorsContainer.addEventListener("change", () =>
+    makeArrayFromElements(selectedColorsArray)
+  );
 
   return {
     init
