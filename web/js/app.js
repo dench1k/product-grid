@@ -267,6 +267,7 @@ const productGridModule = (() => {
 
   /**
    * Make and change array from checked color inputs
+   * bad smell
    */
   const makeArrayFromElements = arr => {
     const target = event.target;
@@ -277,7 +278,6 @@ const productGridModule = (() => {
       const idx = selectedColorsArray.indexOf(target.value);
       arr.splice(idx, 1);
     }
-    console.log(arr);
     return arr;
   };
 
@@ -302,7 +302,9 @@ const productGridModule = (() => {
       );
       console.log(productsByColorArray);
 
-      render(productsByColorArray, productsTemplate, productsContainer);
+      productsByColorArray.length
+        ? render(productsByColorArray, productsTemplate, productsContainer)
+        : render(productsData, productsTemplate, productsContainer);
     });
   };
 
