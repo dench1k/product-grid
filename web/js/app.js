@@ -212,14 +212,8 @@ const productGridModule = (() => {
    * @param {object} dataToRender - An object with data to render from
    * @param {Element} templateToRender - A handlebars template from HTML
    * @param {string} containerToAppend - A DOMElement to render into
-   * @param {function} [conditionals = false] - An optional functionality extension
    */
-  const render = (
-    dataToRender,
-    templateToRender,
-    containerToAppend,
-    conditionals = false
-  ) => {
+  const render = (dataToRender, templateToRender, containerToAppend) => {
     const template = Handlebars.compile(templateToRender);
     const data = {
       items: dataToRender
