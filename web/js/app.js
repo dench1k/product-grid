@@ -254,7 +254,7 @@ const productGridModule = (() => {
 
   /**
    * Get filtered values of particular property from given array by another searching array
-   * @param {arr} dataArr - An array with data objects
+   * @param {array} dataArr - An array with data objects
    * @param {string} prop - A particular property value to get in the resulted array
    * @param {array} valArr - An arrays of values to search from
    * @return {array}
@@ -262,6 +262,29 @@ const productGridModule = (() => {
   const getFilteredArray = (dataArr, prop, valArr) => {
     return dataArr.filter(item => {
       return valArr.includes(item[prop]);
+    });
+  };
+
+  /**
+   * Get sorted array by particular property from existing data
+   * @param {array} arr  - An array with data objects
+   * @param {string} sortBy  - A particular property to sort from
+   * @param {string} sortHow  - A particular keyword to sort how
+   * @return {array}
+   */
+  const getSortedArray = (arr, sortBy, sortHow) => {
+    const sortedArr = Array.from(arr);
+    return sortedArr.sort((a, b) => {
+      switch (sortHow) {
+        case "ASC":
+          return a[sortBy] - b[sortBy];
+          break;
+        case "DESC":
+          return b[sortBy] - a[sortBy];
+          break;
+        default:
+          console.error("Sorted as NONE");
+      }
     });
   };
 
@@ -300,12 +323,43 @@ const productGridModule = (() => {
         "color",
         selectedColorsArray
       );
-      console.log(productsByColorArray);
 
       productsByColorArray.length
         ? render(productsByColorArray, productsTemplate, productsContainer)
         : render(productsData, productsTemplate, productsContainer);
     });
+
+    const filterByPrice = () => {
+      const NONE = "NONE";
+      const ASC = "ASC";
+      const DESC = "DESC";
+      const target = event.target;
+      const selectedOptionValue = target.options[target.selectedIndex].value;
+
+      switch (selectedOptionValue) {
+        case NONE:
+          render(productsData, productsTemplate, productsContainer);
+          break;
+        case ASC:
+          render(
+            getSortedArray(productsData, "price", ASC),
+            productsTemplate,
+            productsContainer
+          );
+          break;
+        case DESC:
+          render(
+            getSortedArray(productsData, "price", DESC),
+            productsTemplate,
+            productsContainer
+          );
+          break;
+        default:
+          console.error("Check option values for the correct result");
+      }
+    };
+
+    priceSelect.addEventListener("change", filterByPrice);
   };
 
   return {
