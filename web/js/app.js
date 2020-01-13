@@ -327,9 +327,9 @@ const productGridModule = (() => {
 
       // copy data to the temporary array
       temporaryArray = [...productsByColorArray];
-
+      filterByPrice();
       productsByColorArray.length
-        ? render(productsByColorArray, productsTemplate, productsContainer)
+        ? render(temporaryArray, productsTemplate, productsContainer)
         : render(productsData, productsTemplate, productsContainer);
     });
 
@@ -337,8 +337,9 @@ const productGridModule = (() => {
       const NONE = "NONE";
       const ASC = "ASC";
       const DESC = "DESC";
-      const target = event.target;
-      const selectedOptionValue = target.options[target.selectedIndex].value;
+      //const target = event.target;
+      const selectedOptionValue =
+        priceSelect.options[priceSelect.selectedIndex].value;
 
       switch (selectedOptionValue) {
         case NONE:
