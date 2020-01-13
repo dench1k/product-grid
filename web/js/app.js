@@ -283,19 +283,18 @@ const productGridModule = (() => {
   };
 
   /**
-   * Make and change array from checked color inputs
-   * bad smell
+   * Modify array from checked color inputs
+   * @param {array} arr  - An array with colors
    */
-  const makeArrayFromElements = arr => {
+  const modifyArrayFromElements = arr => {
     const target = event.target;
 
     if (target.checked) {
       arr.push(target.value);
     } else {
-      const idx = selectedColorsArray.indexOf(target.value);
+      const idx = arr.indexOf(target.value);
       arr.splice(idx, 1);
     }
-    return arr;
   };
 
   /**
@@ -311,7 +310,7 @@ const productGridModule = (() => {
 
     // events
     colorsContainer.addEventListener("change", () => {
-      makeArrayFromElements(selectedColorsArray);
+      modifyArrayFromElements(selectedColorsArray);
       const productsByColorArray = getFilteredArray(
         productsData,
         "color",
