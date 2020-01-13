@@ -186,6 +186,7 @@ const productGridModule = (() => {
   // data
   const API_URL = "http://localhost:3000/products/";
   let selectedColorsArray = [];
+  let temporaryArray = [];
 
   // cached DOM
   const productsContainer = document.querySelector(".js-products");
@@ -297,6 +298,13 @@ const productGridModule = (() => {
     }
   };
 
+  const useTemporaryArray = (tempArr, origArr) => {
+    if (tempArr.length) {
+      return tempArr;
+    }
+    return origArr;
+  };
+
   /**
    * Get data from API and render it into the DOM on initialization
    */
@@ -316,6 +324,9 @@ const productGridModule = (() => {
         "color",
         selectedColorsArray
       );
+
+      // copy data to the temporary array
+      temporaryArray = [...productsByColorArray];
 
       productsByColorArray.length
         ? render(productsByColorArray, productsTemplate, productsContainer)
