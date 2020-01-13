@@ -342,18 +342,30 @@ const productGridModule = (() => {
 
       switch (selectedOptionValue) {
         case NONE:
-          render(productsData, productsTemplate, productsContainer);
+          render(
+            useTemporaryArray(temporaryArray, productsData),
+            productsTemplate,
+            productsContainer
+          );
           break;
         case ASC:
           render(
-            getSortedArray(productsData, "price", ASC),
+            getSortedArray(
+              useTemporaryArray(temporaryArray, productsData),
+              "price",
+              ASC
+            ),
             productsTemplate,
             productsContainer
           );
           break;
         case DESC:
           render(
-            getSortedArray(productsData, "price", DESC),
+            getSortedArray(
+              useTemporaryArray(temporaryArray, productsData),
+              "price",
+              DESC
+            ),
             productsTemplate,
             productsContainer
           );
