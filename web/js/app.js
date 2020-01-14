@@ -269,6 +269,7 @@ const productGridModule = (() => {
    */
   const getSortedArray = (arr, sortBy, sortHow) => {
     const sortedArr = Array.from(arr);
+    console.log(sortedArr);
     return sortedArr.sort((a, b) => {
       switch (sortHow) {
         case "ASC":
@@ -277,6 +278,7 @@ const productGridModule = (() => {
         case "DESC":
           return b[sortBy] - a[sortBy];
           break;
+        // don't like this implement, should be easier
         default:
           console.error("Sorted as NONE");
       }
@@ -313,7 +315,10 @@ const productGridModule = (() => {
     const colorsArray = getPropertyArray(productsData, "color");
     const colorsUniqueArray = getUniqueArray(colorsArray).sort();
 
-    render(productsData, productsTemplate, productsContainer);
+    // copy data to the temporary array
+    temporaryArray = [...productsData];
+
+    render(temporaryArray, productsTemplate, productsContainer);
     render(colorsUniqueArray, colorsTemplate, colorsContainer);
 
     // events
@@ -325,8 +330,6 @@ const productGridModule = (() => {
         selectedColorsArray
       );
 
-      // copy data to the temporary array
-      temporaryArray = [...productsByColorArray];
       filterByPrice();
       productsByColorArray.length
         ? render(temporaryArray, productsTemplate, productsContainer)
@@ -337,36 +340,27 @@ const productGridModule = (() => {
       const NONE = "NONE";
       const ASC = "ASC";
       const DESC = "DESC";
-      //const target = event.target;
       const selectedOptionValue =
         priceSelect.options[priceSelect.selectedIndex].value;
 
       switch (selectedOptionValue) {
         case NONE:
           render(
-            useTemporaryArray(temporaryArray, productsData),
+            getSortedArray(temporaryArray, "id", ASC),
             productsTemplate,
             productsContainer
           );
           break;
         case ASC:
           render(
-            getSortedArray(
-              useTemporaryArray(temporaryArray, productsData),
-              "price",
-              ASC
-            ),
+            getSortedArray(temporaryArray, "price", ASC),
             productsTemplate,
             productsContainer
           );
           break;
         case DESC:
           render(
-            getSortedArray(
-              useTemporaryArray(temporaryArray, productsData),
-              "price",
-              DESC
-            ),
+            getSortedArray(temporaryArray, "price", DESC),
             productsTemplate,
             productsContainer
           );
