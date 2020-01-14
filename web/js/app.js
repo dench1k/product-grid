@@ -269,7 +269,7 @@ const productGridModule = (() => {
    */
   const getSortedArray = (arr, sortBy, sortHow) => {
     const sortedArr = Array.from(arr);
-    console.log(sortedArr);
+    //console.log(sortedArr);
     return sortedArr.sort((a, b) => {
       switch (sortHow) {
         case "ASC":
@@ -322,6 +322,7 @@ const productGridModule = (() => {
     render(colorsUniqueArray, colorsTemplate, colorsContainer);
 
     // events
+    // bug is here
     colorsContainer.addEventListener("change", () => {
       modifyArrayFromElements(selectedColorsArray);
       const productsByColorArray = getFilteredArray(
@@ -329,11 +330,12 @@ const productGridModule = (() => {
         "color",
         selectedColorsArray
       );
-
-      filterByPrice();
-      productsByColorArray.length
-        ? render(temporaryArray, productsTemplate, productsContainer)
-        : render(productsData, productsTemplate, productsContainer);
+      temporaryArray = [...productsByColorArray];
+      render(temporaryArray, productsTemplate, productsContainer);
+      //filterByPrice();
+      // productsByColorArray.length
+      //   ? render(temporaryArray, productsTemplate, productsContainer)
+      //   : render(productsData, productsTemplate, productsContainer);
     });
 
     const filterByPrice = () => {
@@ -342,9 +344,11 @@ const productGridModule = (() => {
       const DESC = "DESC";
       const selectedOptionValue =
         priceSelect.options[priceSelect.selectedIndex].value;
+      console.log("before:", temporaryArray);
 
       switch (selectedOptionValue) {
         case NONE:
+          temporaryArray = [...getSortedArray(temporaryArray, "id", ASC)];
           render(
             getSortedArray(temporaryArray, "id", ASC),
             productsTemplate,
@@ -352,6 +356,7 @@ const productGridModule = (() => {
           );
           break;
         case ASC:
+          temporaryArray = [...getSortedArray(temporaryArray, "price", ASC)];
           render(
             getSortedArray(temporaryArray, "price", ASC),
             productsTemplate,
@@ -359,6 +364,7 @@ const productGridModule = (() => {
           );
           break;
         case DESC:
+          temporaryArray = [...getSortedArray(temporaryArray, "price", DESC)];
           render(
             getSortedArray(temporaryArray, "price", DESC),
             productsTemplate,
@@ -368,6 +374,7 @@ const productGridModule = (() => {
         default:
           console.error("Check option values for the correct result");
       }
+      console.log(temporaryArray);
     };
 
     priceSelect.addEventListener("change", filterByPrice);
