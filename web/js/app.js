@@ -321,22 +321,21 @@ const productGridModule = (() => {
     render(temporaryArray, productsTemplate, productsContainer);
     render(colorsUniqueArray, colorsTemplate, colorsContainer);
 
-    // events
-    // bug is here
-    colorsContainer.addEventListener("change", () => {
+    const filterByColor = () => {
       modifyArrayFromElements(selectedColorsArray);
       const productsByColorArray = getFilteredArray(
         productsData,
         "color",
         selectedColorsArray
       );
-      temporaryArray = [...productsByColorArray];
+
+      productsByColorArray.length
+        ? (temporaryArray = [...productsByColorArray])
+        : (temporaryArray = [...productsData]);
+
+      filterByPrice();
       render(temporaryArray, productsTemplate, productsContainer);
-      //filterByPrice();
-      // productsByColorArray.length
-      //   ? render(temporaryArray, productsTemplate, productsContainer)
-      //   : render(productsData, productsTemplate, productsContainer);
-    });
+    };
 
     const filterByPrice = () => {
       const NONE = "NONE";
@@ -377,6 +376,8 @@ const productGridModule = (() => {
       console.log(temporaryArray);
     };
 
+    // events
+    colorsContainer.addEventListener("change", filterByColor);
     priceSelect.addEventListener("change", filterByPrice);
   };
 
