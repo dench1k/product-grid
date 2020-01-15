@@ -118,13 +118,6 @@ const productGridModule = (() => {
     }
   };
 
-  const useTemporaryArray = (tempArr, origArr) => {
-    if (tempArr.length) {
-      return tempArr;
-    }
-    return origArr;
-  };
-
   /**
    * Get data from API and render it into the DOM on initialization
    */
