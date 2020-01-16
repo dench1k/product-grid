@@ -48,7 +48,7 @@ const productGridModule = (() => {
    * @param {string} prop - A particular property value to get in the resulted array
    * @return {array}
    */
-  const getPropertyArray = (arr, prop) => {
+  const getPropertyValueArray = (arr, prop) => {
     return arr.map(item => {
       return item[prop];
     });
@@ -87,7 +87,6 @@ const productGridModule = (() => {
    */
   const getSortedArray = (arr, sortBy, sortHow) => {
     const sortedArr = Array.from(arr);
-    //console.log(sortedArr);
     return sortedArr.sort((a, b) => {
       switch (sortHow) {
         case "ASC":
@@ -119,11 +118,23 @@ const productGridModule = (() => {
   };
 
   /**
+   * Get filtered array by particular property
+   * @param {array} arr - An array with data objects
+   * @param {string} prop - A particular property to filter from
+   * @return {array}
+   */
+  const getFilteredByPropertyArray = (arr, prop) => {
+    return arr.filter(item => {
+      return item[prop];
+    });
+  };
+
+  /**
    * Get data from API and render it into the DOM on initialization
    */
   const init = async () => {
     const productsData = await API_DATA(API_URL);
-    const colorsArray = getPropertyArray(productsData, "color");
+    const colorsArray = getPropertyValueArray(productsData, "color");
     const colorsUniqueArray = getUniqueArray(colorsArray).sort();
 
     // copy data to the temporary array
@@ -132,12 +143,25 @@ const productGridModule = (() => {
     render(temporaryArray, productsTemplate, productsContainer);
     render(colorsUniqueArray, colorsTemplate, colorsContainer);
 
+    const colorsElements = colorsContainer.querySelectorAll(
+      "input[type=checkbox]"
+    );
+    const colorsElementsArray = Array.prototype.slice.call(colorsElements);
+
     const filterByColor = () => {
-      modifyArrayFromElements(selectedColorsArray);
+      const colorsElementsChecked = getFilteredByPropertyArray(
+        colorsElementsArray,
+        "checked"
+      );
+      const colorsValuesChecked = getPropertyValueArray(
+        colorsElementsChecked,
+        "value"
+      );
+
       const productsByColorArray = getFilteredArray(
         productsData,
         "color",
-        selectedColorsArray
+        colorsValuesChecked
       );
 
       productsByColorArray.length
@@ -154,7 +178,7 @@ const productGridModule = (() => {
       const DESC = "DESC";
       const selectedOptionValue =
         priceSelect.options[priceSelect.selectedIndex].value;
-      console.log("before:", temporaryArray);
+      //console.log("before:", temporaryArray);
 
       switch (selectedOptionValue) {
         case NONE:
@@ -184,7 +208,7 @@ const productGridModule = (() => {
         default:
           console.error("Check option values for the correct result");
       }
-      console.log(temporaryArray);
+      //console.log(temporaryArray);
     };
 
     // events
