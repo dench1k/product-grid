@@ -108,7 +108,7 @@ const productGridModule = (() => {
           return b[sortBy] - a[sortBy];
           break;
         default:
-          console.error("Sorted as NONE");
+          console.error("Sorting method isn't correct");
       }
     });
   };
@@ -165,28 +165,27 @@ const productGridModule = (() => {
 
       switch (selectedOptionValue) {
         case NONE:
-          temporaryArray = [...getSortedArray(temporaryArray, "id", ASC)];
-          render(
-            getSortedArray(temporaryArray, "id", ASC),
-            productsTemplate,
-            productsContainer
-          );
+          const sortedByIDAndASC = getSortedArray(temporaryArray, "id", ASC);
+          temporaryArray = [...sortedByIDAndASC];
+          render(sortedByIDAndASC, productsTemplate, productsContainer);
           break;
         case ASC:
-          temporaryArray = [...getSortedArray(temporaryArray, "price", ASC)];
-          render(
-            getSortedArray(temporaryArray, "price", ASC),
-            productsTemplate,
-            productsContainer
+          const sortedByPriceAndASC = getSortedArray(
+            temporaryArray,
+            "price",
+            ASC
           );
+          temporaryArray = [...sortedByPriceAndASC];
+          render(sortedByPriceAndASC, productsTemplate, productsContainer);
           break;
         case DESC:
-          temporaryArray = [...getSortedArray(temporaryArray, "price", DESC)];
-          render(
-            getSortedArray(temporaryArray, "price", DESC),
-            productsTemplate,
-            productsContainer
+          const sortedByPriceAndDESC = getSortedArray(
+            temporaryArray,
+            "price",
+            DESC
           );
+          temporaryArray = [...sortedByPriceAndDESC];
+          render(sortedByPriceAndDESC, productsTemplate, productsContainer);
           break;
         default:
           console.error("Check option values for the correct result");
