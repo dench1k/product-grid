@@ -3,7 +3,6 @@
 const productGridModule = (() => {
   // data
   const API_URL = "http://localhost:3000/products/";
-  let selectedColorsArray = [];
   let temporaryArray = [];
 
   // cached DOM
@@ -100,21 +99,6 @@ const productGridModule = (() => {
           console.error("Sorted as NONE");
       }
     });
-  };
-
-  /**
-   * Modify array from checked color inputs
-   * @param {array} arr  - An array with colors
-   */
-  const modifyArrayFromElements = arr => {
-    const target = event.target;
-
-    if (target.checked) {
-      arr.push(target.value);
-    } else {
-      const idx = arr.indexOf(target.value);
-      arr.splice(idx, 1);
-    }
   };
 
   /**
