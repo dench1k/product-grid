@@ -42,6 +42,18 @@ const productGridModule = (() => {
   };
 
   /**
+   * Get filtered array by particular property
+   * @param {array} arr - An array with data objects
+   * @param {string} prop - A particular property to filter from
+   * @return {array}
+   */
+  const getFilteredByPropertyArray = (arr, prop) => {
+    return arr.filter(item => {
+      return item[prop];
+    });
+  };
+
+  /**
    * Get particular value from property of given array items
    * @param {array} arr - An array with data objects
    * @param {string} prop - A particular property value to get in the resulted array
@@ -77,6 +89,7 @@ const productGridModule = (() => {
     });
   };
 
+  // don't like this implementation, should be easier
   /**
    * Get sorted array by particular property from existing data
    * @param {array} arr  - An array with data objects
@@ -94,22 +107,9 @@ const productGridModule = (() => {
         case "DESC":
           return b[sortBy] - a[sortBy];
           break;
-        // don't like this implement, should be easier
         default:
           console.error("Sorted as NONE");
       }
-    });
-  };
-
-  /**
-   * Get filtered array by particular property
-   * @param {array} arr - An array with data objects
-   * @param {string} prop - A particular property to filter from
-   * @return {array}
-   */
-  const getFilteredByPropertyArray = (arr, prop) => {
-    return arr.filter(item => {
-      return item[prop];
     });
   };
 
@@ -162,7 +162,6 @@ const productGridModule = (() => {
       const DESC = "DESC";
       const selectedOptionValue =
         priceSelect.options[priceSelect.selectedIndex].value;
-      //console.log("before:", temporaryArray);
 
       switch (selectedOptionValue) {
         case NONE:
@@ -192,7 +191,6 @@ const productGridModule = (() => {
         default:
           console.error("Check option values for the correct result");
       }
-      //console.log(temporaryArray);
     };
 
     // events
