@@ -103,10 +103,8 @@ const productGridModule = (() => {
       switch (sortHow) {
         case "ASC":
           return a[sortBy] - b[sortBy];
-          break;
         case "DESC":
           return b[sortBy] - a[sortBy];
-          break;
         default:
           console.error("Sorting method isn't correct");
       }
@@ -152,6 +150,7 @@ const productGridModule = (() => {
         ? (temporaryArray = [...productsByColorArray])
         : (temporaryArray = [...productsData]);
 
+      //refactor this
       filterByPrice();
       render(temporaryArray, productsTemplate, productsContainer);
     };
