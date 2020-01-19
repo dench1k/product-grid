@@ -1,153 +1,220 @@
 "use strict";
 
-// var productGrid = function ($) {
-//   /**
-//    * get products from specific url and return an object with them
-//    * @param url
-//    * @param callback
-//    */
-//   function getProducts(url, callback) {
-//     var request = $.ajax({
-//       url: "".concat(url)
-//     }); // if everything is ok
+const productGridModule = (() => {
+  // data
+  const API_URL = "http://localhost:3000/products/";
+  let temporaryArray = [];
 
-//     request.done(function (data) {
-//       var context = {
-//         products: data
-//       };
-//       console.log(context);
+  // cached DOM
+  const productsContainer = document.querySelector(".js-products");
+  const productsTemplate = document.querySelector("#products-template")
+    .innerHTML;
+  const colorsContainer = document.querySelector(".js-filters__colors");
+  const colorsTemplate = document.querySelector("#colors-template").innerHTML;
+  const priceSelect = document.querySelector(".js-filters__select");
 
-//       if (typeof callback === 'function') {
-//         return callback(context);
-//       }
+  // functions
+  /**
+   * Get data from API
+   * @param {string} url - An URL to get data
+   * @return {object} - JSON with data
+   */
+  const API_DATA = async url => {
+    const response = await fetch(url);
+    const responseJSON = await response.json();
+    return responseJSON;
+  };
 
-//       return context;
-//     }); // if something went wrong
-
-//     request.fail(function (jqXHR, textStatus) {
-//       alert("Request failed: ".concat(textStatus));
-//     });
-//   }
-//   /**
-//    * get Handlebars template
-//    * @returns {*}
-//    */
-
-//   function getTemplate() {
-//     var source = document.getElementById('product-template').innerHTML;
-//     var template = Handlebars.compile(source);
-//     return template;
-//   }
-
-//   function renderTemplate(template, context) {
-//     return template(context);
-//   }
-
-//   function appendTemplate(data) {
-//     var template = getTemplate();
-//     var html = renderTemplate(template, data);
-//     $('.products').append(html);
-//   }
-//   /**
-//    * call functions on init
-//    */
-
-//   function init() {
-//     getProducts('http://localhost:3000/products', function (data) {
-//       appendTemplate(data);
-//     });
-//   }
-
-//   return {
-//     init: init
-//   };
-// }(jQuery);
-
-// productGrid.init();
-
-const productGridModule = (function($) {
-  //data
-  const productsUrl = "http://localhost:3000/products/";
-  let filterArr = [];
-  let productsData = [];
-
-  //cache DOM
-  const $products = $(".products");
-  const $productsTemplate = $("#product-template").html();
-  const $colors = $(".filters__colors");
-  const $colorsTemplate = $("#colors-template").html();
-
-  //functions
-  function renderProducts() {
-    const template = Handlebars.compile($productsTemplate);
-    let data = {
-      products: productsData
+  /**
+   * Render HTML with Handlebars
+   * @param {object} dataToRender - An object with data to render from
+   * @param {Element} templateToRender - A handlebars template from HTML
+   * @param {string} containerToAppend - A DOMElement to render into
+   */
+  const render = (dataToRender, templateToRender, containerToAppend) => {
+    const template = Handlebars.compile(templateToRender);
+    const data = {
+      items: dataToRender
     };
     const result = template(data);
-    $products.append(result);
-  }
+    containerToAppend.innerHTML = "";
+    containerToAppend.innerHTML = result;
+  };
 
-  function renderColors(colorsArr) {
-    const template = Handlebars.compile($colorsTemplate);
-    let data = {
-      colors: colorsArr
+  /**
+   * Get filtered array by particular property
+   * @param {array} arr - An array with data objects
+   * @param {string} prop - A particular property to filter from
+   * @return {array}
+   */
+  const getFilteredByPropertyArray = (arr, prop) => {
+    return arr.filter(item => {
+      return item[prop];
+    });
+  };
+
+  /**
+   * Get particular value from property of given array items
+   * @param {array} arr - An array with data objects
+   * @param {string} prop - A particular property value to get in the resulted array
+   * @return {array}
+   */
+  const getPropertyValueArray = (arr, prop) => {
+    return arr.map(item => {
+      return item[prop];
+    });
+  };
+
+  /**
+   * Get unique values from given array
+   * @param {array} arr - An array with data objects
+   * @return {array}
+   */
+  const getUniqueArray = arr => {
+    return arr.filter((value, index, array) => {
+      return array.indexOf(value) === index;
+    });
+  };
+
+  /**
+   * Get filtered values of particular property from given array by another searching array
+   * @param {array} dataArr - An array with data objects
+   * @param {string} prop - A particular property value to get in the resulted array
+   * @param {array} valArr - An arrays of values to search from
+   * @return {array}
+   */
+  const getFilteredArray = (dataArr, prop, valArr) => {
+    return dataArr.filter(item => {
+      return valArr.includes(item[prop]);
+    });
+  };
+
+  // don't like this implementation, should be easier
+  /**
+   * Get sorted array by particular property from existing data
+   * @param {array} arr  - An array with data objects
+   * @param {string} sortBy  - A particular property to sort from
+   * @param {string} sortHow  - A particular keyword to sort how
+   * @return {array}
+   */
+  const getSortedArray = (arr, sortBy, sortHow) => {
+    const sortedArr = Array.from(arr);
+    return sortedArr.sort((a, b) => {
+      switch (sortHow) {
+        case "ASC":
+          return a[sortBy] - b[sortBy];
+        case "DESC":
+          return b[sortBy] - a[sortBy];
+        default:
+          console.error("Sorting method isn't correct");
+      }
+    });
+  };
+
+  // const compose = (f, g) => x => f(g(x));
+  // const x = 20;
+  // const arr = [x];
+
+  // const g = n => n + 1;
+  // const f = n => n * 2;
+
+  // const res = arr.map(g).map(f);
+  // const comp = arr.map(
+  //   compose(
+  //     f,
+  //     g
+  //   )
+  // );
+  // console.log(comp);
+
+  /**
+   * Get data from API and render it into the DOM on initialization
+   */
+  const init = async () => {
+    const productsData = await API_DATA(API_URL);
+    const colorsArray = getPropertyValueArray(productsData, "color");
+    const colorsUniqueArray = getUniqueArray(colorsArray).sort();
+
+    // copy data to the temporary array
+    temporaryArray = [...productsData];
+
+    render(temporaryArray, productsTemplate, productsContainer);
+    render(colorsUniqueArray, colorsTemplate, colorsContainer);
+
+    const colorsElements = colorsContainer.querySelectorAll(
+      "input[type=checkbox]"
+    );
+    const colorsElementsArray = Array.prototype.slice.call(colorsElements);
+
+    const filterByColor = () => {
+      const colorsElementsChecked = getFilteredByPropertyArray(
+        colorsElementsArray,
+        "checked"
+      );
+      const colorsValuesChecked = getPropertyValueArray(
+        colorsElementsChecked,
+        "value"
+      );
+
+      const productsByColorArray = getFilteredArray(
+        productsData,
+        "color",
+        colorsValuesChecked
+      );
+
+      productsByColorArray.length
+        ? (temporaryArray = [...productsByColorArray])
+        : (temporaryArray = [...productsData]);
+
+      //refactor this
+      filterByPrice();
+      render(temporaryArray, productsTemplate, productsContainer);
     };
-    const result = template(data);
-    $colors.append(result);
-  }
 
-  function getColors(data) {
-    let colorsArrAll = [];
-    let colorsArrUnique = [];
+    const filterByPrice = () => {
+      const NONE = "NONE";
+      const ASC = "ASC";
+      const DESC = "DESC";
+      const selectedOptionValue =
+        priceSelect.options[priceSelect.selectedIndex].value;
 
-    data.forEach(function(element) {
-      colorsArrAll.push(element.color);
-    });
-    colorsArrUnique = colorsArrAll.filter(function(val, idx, arr) {
-      return arr.indexOf(val) === idx;
-    });
+      switch (selectedOptionValue) {
+        case NONE:
+          const sortedByIDAndASC = getSortedArray(temporaryArray, "id", ASC);
+          temporaryArray = [...sortedByIDAndASC];
+          render(sortedByIDAndASC, productsTemplate, productsContainer);
+          break;
+        case ASC:
+          const sortedByPriceAndASC = getSortedArray(
+            temporaryArray,
+            "price",
+            ASC
+          );
+          temporaryArray = [...sortedByPriceAndASC];
+          render(sortedByPriceAndASC, productsTemplate, productsContainer);
+          break;
+        case DESC:
+          const sortedByPriceAndDESC = getSortedArray(
+            temporaryArray,
+            "price",
+            DESC
+          );
+          temporaryArray = [...sortedByPriceAndDESC];
+          render(sortedByPriceAndDESC, productsTemplate, productsContainer);
+          break;
+        default:
+          console.error("Check option values for the correct result");
+      }
+    };
 
-    return colorsArrUnique.sort();
-  }
-
-  function getFilterValues(event) {
-    if (event.target.checked) {
-      filterArr.push(event.target.value);
-    } else {
-      let idx = filterArr.indexOf(event.target.value);
-      filterArr.splice(idx, 1);
-    }
-
-    console.log(filterArr);
-
-    return filterArr;
-  }
-  console.log("data:" + productsData);
-  function getData(url) {
-    fetch(url)
-      .then(function(resp) {
-        return resp.json();
-      })
-      .then(function(data) {
-        productsData = data;
-        renderProducts();
-        renderColors(getColors(data));
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-
-  //events
-  $colors.on("change", "input[type=checkbox]", getFilterValues);
-
-  function init() {
-    getData(productsUrl);
-  }
+    // events
+    colorsContainer.addEventListener("change", filterByColor);
+    priceSelect.addEventListener("change", filterByPrice);
+  };
 
   return {
-    init: init
+    init
   };
-})(jQuery);
+})();
 
 productGridModule.init();
