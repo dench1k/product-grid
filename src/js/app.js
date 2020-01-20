@@ -42,6 +42,22 @@ const productGridModule = (() => {
   };
 
   /**
+   * Render productsArray
+   * @param {array} productsArray
+   */
+  const renderProducts = productsArray => {
+    render(productsArray, productsTemplate, productsContainer);
+  };
+
+  /**
+   * Render colorsArray
+   * @param {array} colorsArray
+   */
+  const renderColors = colorsArray => {
+    render(colorsArray, colorsTemplate, colorsContainer);
+  };
+
+  /**
    * Get filtered array by particular property
    * @param {array} arr - An array with data objects
    * @param {string} prop - A particular property to filter from
@@ -138,8 +154,8 @@ const productGridModule = (() => {
     // copy data to the temporary array
     temporaryArray = [...productsData];
 
-    render(temporaryArray, productsTemplate, productsContainer);
-    render(colorsUniqueArray, colorsTemplate, colorsContainer);
+    renderProducts(temporaryArray);
+    renderColors(colorsUniqueArray);
 
     const colorsElements = colorsContainer.querySelectorAll(
       "input[type=checkbox]"
@@ -168,7 +184,7 @@ const productGridModule = (() => {
 
       //refactor this
       filterByPrice();
-      render(temporaryArray, productsTemplate, productsContainer);
+      renderProducts(temporaryArray);
     };
 
     const filterByPrice = () => {
@@ -182,7 +198,7 @@ const productGridModule = (() => {
         case NONE:
           const sortedByIDAndASC = getSortedArray(temporaryArray, "id", ASC);
           temporaryArray = [...sortedByIDAndASC];
-          render(sortedByIDAndASC, productsTemplate, productsContainer);
+          renderProducts(sortedByIDAndASC);
           break;
         case ASC:
           const sortedByPriceAndASC = getSortedArray(
@@ -191,7 +207,7 @@ const productGridModule = (() => {
             ASC
           );
           temporaryArray = [...sortedByPriceAndASC];
-          render(sortedByPriceAndASC, productsTemplate, productsContainer);
+          renderProducts(sortedByPriceAndASC);
           break;
         case DESC:
           const sortedByPriceAndDESC = getSortedArray(
@@ -200,7 +216,7 @@ const productGridModule = (() => {
             DESC
           );
           temporaryArray = [...sortedByPriceAndDESC];
-          render(sortedByPriceAndDESC, productsTemplate, productsContainer);
+          renderProducts(sortedByPriceAndDESC);
           break;
         default:
           console.error("Check option values for the correct result");
