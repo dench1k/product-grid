@@ -127,22 +127,6 @@ const productGridModule = (() => {
     });
   };
 
-  // const compose = (f, g) => x => f(g(x));
-  // const x = 20;
-  // const arr = [x];
-
-  // const g = n => n + 1;
-  // const f = n => n * 2;
-
-  // const res = arr.map(g).map(f);
-  // const comp = arr.map(
-  //   compose(
-  //     f,
-  //     g
-  //   )
-  // );
-  // console.log(comp);
-
   /**
    * Get data from API and render it into the DOM on initialization
    */
