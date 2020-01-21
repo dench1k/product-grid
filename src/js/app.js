@@ -114,12 +114,14 @@ const productGridModule = (() => {
    * @return {array}
    */
   const getSortedArray = (arr, sortBy, sortHow) => {
+    const ASC = "ASC";
+    const DESC = "DESC";
     const sortedArr = Array.from(arr);
     return sortedArr.sort((a, b) => {
       switch (sortHow) {
-        case "ASC":
+        case ASC:
           return a[sortBy] - b[sortBy];
-        case "DESC":
+        case DESC:
           return b[sortBy] - a[sortBy];
         default:
           console.error("Sorting method isn't correct");
@@ -135,7 +137,7 @@ const productGridModule = (() => {
     const colorsArray = getPropertyValueArray(productsData, "color");
     const colorsUniqueArray = getUniqueArray(colorsArray).sort();
 
-    // copy data to the temporary array
+    // copy data to the temporary array for sharing purposes
     temporaryArray = [...productsData];
 
     renderProducts(temporaryArray);
@@ -162,6 +164,7 @@ const productGridModule = (() => {
         colorsValuesChecked
       );
 
+      //change temporaryArray to share data with filterByPrice or revert to initial productsData
       productsByColorArray.length
         ? (temporaryArray = [...productsByColorArray])
         : (temporaryArray = [...productsData]);
@@ -177,10 +180,11 @@ const productGridModule = (() => {
       const DESC = "DESC";
       const selectedOptionValue =
         priceSelect.options[priceSelect.selectedIndex].value;
-
+      console.log("before price: ", temporaryArray);
       switch (selectedOptionValue) {
         case NONE:
           const sortedByIDAndASC = getSortedArray(temporaryArray, "id", ASC);
+          //change temporaryArray to share data with filterByColor
           temporaryArray = [...sortedByIDAndASC];
           renderProducts(sortedByIDAndASC);
           break;
@@ -190,6 +194,7 @@ const productGridModule = (() => {
             "price",
             ASC
           );
+          //change temporaryArray to share data with filterByColor
           temporaryArray = [...sortedByPriceAndASC];
           renderProducts(sortedByPriceAndASC);
           break;
@@ -199,12 +204,14 @@ const productGridModule = (() => {
             "price",
             DESC
           );
+          //change temporaryArray to share data with filterByColor
           temporaryArray = [...sortedByPriceAndDESC];
           renderProducts(sortedByPriceAndDESC);
           break;
         default:
           console.error("Check option values for the correct result");
       }
+      console.log("after price: ", temporaryArray);
     };
 
     // events
