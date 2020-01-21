@@ -3,7 +3,7 @@
 const productGridModule = (() => {
   // data
   const API_URL = "http://localhost:3000/products/";
-  let temporaryArray = [];
+  let temporaryProductsArray = [];
 
   // cached DOM
   const productsContainer = document.querySelector(".js-products");
@@ -19,7 +19,7 @@ const productGridModule = (() => {
    * @param {string} url - An URL to get data
    * @return {object} - JSON with data
    */
-  const API_DATA = async url => {
+  const GetAPIData = async url => {
     const response = await fetch(url);
     const responseJSON = await response.json();
     return responseJSON;
@@ -133,14 +133,14 @@ const productGridModule = (() => {
    * Get data from API and render it into the DOM on initialization
    */
   const init = async () => {
-    const productsData = await API_DATA(API_URL);
-    const colorsArray = getPropertyValueArray(productsData, "color");
+    const productsDataArray = await GetAPIData(API_URL);
+    const colorsArray = getPropertyValueArray(productsDataArray, "color");
     const colorsUniqueArray = getUniqueArray(colorsArray).sort();
 
     // copy data to the temporary array for sharing purposes
-    temporaryArray = [...productsData];
+    temporaryProductsArray = [...productsDataArray];
 
-    renderProducts(temporaryArray);
+    renderProducts(temporaryProductsArray);
     renderColors(colorsUniqueArray);
 
     const colorsElements = colorsContainer.querySelectorAll(
@@ -159,19 +159,19 @@ const productGridModule = (() => {
       );
 
       const productsByColorArray = getFilteredArray(
-        productsData,
+        productsDataArray,
         "color",
         colorsValuesChecked
       );
 
-      //change temporaryArray to share data with filterByPrice or revert to initial productsData
+      //change temporaryProductsArray to share data with filterByPrice or revert to initial productsDataArray
       productsByColorArray.length
-        ? (temporaryArray = [...productsByColorArray])
-        : (temporaryArray = [...productsData]);
+        ? (temporaryProductsArray = [...productsByColorArray])
+        : (temporaryProductsArray = [...productsDataArray]);
 
       //refactor this
       filterByPrice();
-      renderProducts(temporaryArray);
+      renderProducts(temporaryProductsArray);
     };
 
     const filterByPrice = () => {
@@ -180,38 +180,40 @@ const productGridModule = (() => {
       const DESC = "DESC";
       const selectedOptionValue =
         priceSelect.options[priceSelect.selectedIndex].value;
-      console.log("before price: ", temporaryArray);
       switch (selectedOptionValue) {
         case NONE:
-          const sortedByIDAndASC = getSortedArray(temporaryArray, "id", ASC);
-          //change temporaryArray to share data with filterByColor
-          temporaryArray = [...sortedByIDAndASC];
+          const sortedByIDAndASC = getSortedArray(
+            temporaryProductsArray,
+            "id",
+            ASC
+          );
+          //change temporaryProductsArray to share data with filterByColor
+          temporaryProductsArray = [...sortedByIDAndASC];
           renderProducts(sortedByIDAndASC);
           break;
         case ASC:
           const sortedByPriceAndASC = getSortedArray(
-            temporaryArray,
+            temporaryProductsArray,
             "price",
             ASC
           );
-          //change temporaryArray to share data with filterByColor
-          temporaryArray = [...sortedByPriceAndASC];
+          //change temporaryProductsArray to share data with filterByColor
+          temporaryProductsArray = [...sortedByPriceAndASC];
           renderProducts(sortedByPriceAndASC);
           break;
         case DESC:
           const sortedByPriceAndDESC = getSortedArray(
-            temporaryArray,
+            temporaryProductsArray,
             "price",
             DESC
           );
-          //change temporaryArray to share data with filterByColor
-          temporaryArray = [...sortedByPriceAndDESC];
+          //change temporaryProductsArray to share data with filterByColor
+          temporaryProductsArray = [...sortedByPriceAndDESC];
           renderProducts(sortedByPriceAndDESC);
           break;
         default:
           console.error("Check option values for the correct result");
       }
-      console.log("after price: ", temporaryArray);
     };
 
     // events
