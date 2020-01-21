@@ -10,13 +10,15 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.20.0",
+    "http-server": "^0.12.1",
     "prettier": "^1.19.1",
     "stylelint": "^9.10.1",
     "stylelint-config-sass-guidelines": "^5.4.0",
     "stylelint-scss": "^3.13.0"
   },
   "scripts": {
-    "start": "json-server index.js"
+    "start": "npm-run-all --parallel json-server http-server",
+    "json-server": "json-server index.js"
   },
   "repository": {
     "type": "git",
