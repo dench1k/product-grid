@@ -24,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dench1k/product-grid-jquery.git"
+    "url": "git+https://github.com/dench1k/product-grid.git"
   },
   "author": "Den Moskvitin",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dench1k/product-grid-jquery/issues"
+    "url": "https://github.com/dench1k/product-grid/issues"
   },
-  "homepage": "https://github.com/dench1k/product-grid-jquery#readme"
+  "homepage": "https://github.com/dench1k/product-grid#readme"
 }
