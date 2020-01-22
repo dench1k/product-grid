@@ -6,6 +6,7 @@ const productGridModule = (() => {
   let temporaryProductsArray = [];
 
   // cached DOM
+  const spinner = document.querySelector(".js-spinner");
   const productsContainer = document.querySelector(".js-products");
   const productsTemplate = document.querySelector("#products-template")
     .innerHTML;
@@ -20,8 +21,10 @@ const productGridModule = (() => {
    * @return {object} - JSON with data
    */
   const GetAPIData = async url => {
+    showSpinner();
     const response = await fetch(url);
     const responseJSON = await response.json();
+    hideSpinner();
     return responseJSON;
   };
 
@@ -127,6 +130,18 @@ const productGridModule = (() => {
           console.error("Sorting method isn't correct");
       }
     });
+  };
+  /**
+   * Show spinner on loading
+   */
+  const showSpinner = () => {
+    spinner.classList.add("is-visible");
+  };
+  /**
+   * Hide spinner after data is loaded
+   */
+  const hideSpinner = () => {
+    spinner.classList.remove("is-visible");
   };
 
   /**

@@ -20,7 +20,7 @@
   "scripts": {
     "start": "run-p http-server json-server",
     "json-server": "json-server index.js",
-    "http-server": "http-server -o /src"
+    "http-server": "http-server -c-1 -o /src"
   },
   "repository": {
     "type": "git",
